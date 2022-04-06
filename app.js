@@ -10,3 +10,12 @@
 // if not just change side's color to player's color
 // when all boxes are colored end game and display message with info about who won
 // call restart game function
+
+
+// Idea for connecting boxes to edges
+// make 2d array to represent center boxes initialize with zeros
+//   |_|  set vertical edges(pipes) with id v00 v01 foramt(v - vertocal, row number, col number)
+// whenever you come across vertical edge you extract column number
+// then add 1 to to center box before (if column number is not 0) and 1 to center box after(if column number is not n)
+// similar thing for the horizontal edges e.g. h00 h01 format(h - horizontal, row number, column number)
+
