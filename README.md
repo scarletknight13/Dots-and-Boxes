@@ -9,6 +9,8 @@
   - Users should be able to visually see which sides I have selected and which boxes I have completed
   - Users should be able to see their score and opponent's score
   - Users should be told at the end who won.
+  ## Pseudo Code
+  - Pseudo is in app.js file
 
   
 
