@@ -18,4 +18,5 @@
 // whenever you come across vertical edge you extract column number
 // then add 1 to to center box before (if column number is not 0) and 1 to center box after(if column number is not n)
 // similar thing for the horizontal edges e.g. h00 h01 format(h - horizontal, row number, column number)
+// when 2d array pos for the center box == 4 then I color entire box
 
