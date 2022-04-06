@@ -13,7 +13,7 @@
 
 
 // Idea for connecting boxes to edges
-// make 2d array to represent center boxes initialize with zeros
+// make 2d array to represent center boxes initialize with zero
 //   |_|  set vertical edges(pipes) with id v00 v01 foramt(v - vertocal, row number, col number)
 // whenever you come across vertical edge you extract column number
 // then add 1 to to center box before (if column number is not 0) and 1 to center box after(if column number is not n)
