@@ -19,10 +19,15 @@
 // then add 1 to to center box before (if column number is not 0) and 1 to center box after(if column number is not n)
 // similar thing for the horizontal edges e.g. h00 h01 format(h - horizontal, row number, column number)
 // when 2d array pos for the center box == 4 then I color entire box
-const startButton = document.querySelector('button');
+const startButton = document.querySelector('.startButton');
 const sliders = document.querySelectorAll('.slider');
-
-// startButton.addEventListener('click', location.href = "./index.html")
+const firstLayer = document.querySelector('.firstLayer');
+startButton.addEventListener('click', startGame);
+let dots = document.querySelectorAll('.dots');
+let horizontalEdges = document.querySelectorAll('.hEdge');
+let verticalEdges = document.querySelectorAll('.vEdge');
+const playerColors = ['red', 'blue'];
+let playerColorIndex = 0;
 
 // update slider text as slider is being dragged
 sliders.forEach(slider => slider.oninput = function (){
@@ -35,6 +40,7 @@ sliders.forEach(slider => slider.oninput = function (){
         label.innerText = `Column: ${this.value}`;  
 } );
 function startGame(){
+    firstLayer.classList.toggle('hide');
     const rowSize = sliders[0].value;
     const colSize = sliders[1].value;
     const gameBoard = document.querySelector('.gameboard');
@@ -63,11 +69,19 @@ function startGame(){
         }
         gameBoard.append(currRow);
     }
+    dots = document.querySelectorAll('.dots');
+    horizontalEdges = document.querySelectorAll('.hEdge');
+    verticalEdges = document.querySelectorAll('.vEdge');
+    console.log(horizontalEdges);
+    horizontalEdges.forEach((edge) => edge.addEventListener('click', () => changeEdgeColor(edge))); 
+    verticalEdges.forEach((edge) => edge.addEventListener('click', () => changeEdgeColor(edge)));
 }
-let playerColor = 'red';
-const dots = document.querySelectorAll('.dots');
-const horizontalEdges = document.querySelectorAll('.hEdge');
-const verticalEdges = document.querySelectorAll('.vEdge');
-console.log(dots);
-horizontalEdges.forEach((horizontalEdge) => horizontalEdge.addEventListener('click', () => horizontalEdge.style.backgroundColor = playerColor)); 
-verticalEdges.forEach((verticalEdge) => verticalEdge.addEventListener('click', () => verticalEdge.style.backgroundColor = playerColor));
+// change edged to player color if not colored already
+function changeEdgeColor(edge){
+    console.log(edge.style.backgroundColor)
+    if(edge.style.backgroundColor === ''){
+        console.log('why')
+        edge.style.backgroundColor = playerColors[playerColorIndex];
+        playerColorIndex ^= 1;
+    }
+}
