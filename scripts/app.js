@@ -28,6 +28,7 @@ let horizontalEdges = document.querySelectorAll('.hEdge');
 let verticalEdges = document.querySelectorAll('.vEdge');
 const playerColors = ['red', 'blue'];
 let playerColorIndex = 0;
+const gameMatrix = [];
 
 // update slider text as slider is being dragged
 sliders.forEach(slider => slider.oninput = function (){
@@ -47,28 +48,35 @@ function startGame(){
     for(let i = 0; i < rowSize * 2 + 1; ++i){
         const currRow = document.createElement('div');
         currRow.classList.add('row');
+        const row = [];
         for(let j = 0; j < colSize * 2 + 1; ++j){
+            row.push(0);
             const currElement = document.createElement('div');
             if(i % 2 == 0){
                 if(j % 2 == 0){
                     currElement.classList.add('dot');
                 }
                 else{
+                    currElement.setAttribute('id', `h${i}${j}`)
                     currElement.classList.add('hEdge');
                 }
             }
             else{
                 if(j % 2 == 0){
+                    currElement.setAttribute('id', `v${i}${j}`)
                     currElement.classList.add('vEdge');
                 }
                 else{
+                    currElement.setAttribute('id', `b${i}${j}`)
                     currElement.classList.add('box');
                 }
             }
             currRow.append(currElement);
+            gameMatrix.push(row);
         }
         gameBoard.append(currRow);
     }
+    console.table(gameMatrix);
     dots = document.querySelectorAll('.dots');
     horizontalEdges = document.querySelectorAll('.hEdge');
     verticalEdges = document.querySelectorAll('.vEdge');
