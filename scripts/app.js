@@ -194,8 +194,6 @@ function decideWinner(){
     changeInnerText(gameStatus, winnerStatus);
 }
 function endGame(){
-    changeInnerText(redScore, `Red score: 0`)
-    changeInnerText(blueScore, `Blue score: 0`);
     decideWinner();
     moves = 0;
     gameActive = false;
@@ -206,5 +204,7 @@ function endGame(){
     setTimeout(()=>{
         firstLayer.classList.toggle('hide');
         changeInnerText(gameStatus, "red player's turn");
+        changeInnerText(redScore, `Red score: 0`)
+        changeInnerText(blueScore, `Blue score: 0`);
     }, 2000);
 }
