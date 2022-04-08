@@ -15,7 +15,8 @@ header{
 }
 .gameInfo{
     display: flex;
-    justify-content: space-between;
+    width: 100%;
+    justify-content: space-around;
 }
 .firstLayer{
     background-color: greenyellow;
@@ -25,10 +26,12 @@ header{
     grid-column: 2 / span 2;
 }
 .gameboard{
+    margin-top: 1em;
     width: 100%;
     height: 80%;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
 }
 .secondLayer{

@@ -31,6 +31,9 @@ let playerColorIndex = 0;
 const gameMatrix = [];
 let redPlayerScore = 0;
 let bluePlayerScore= 0;
+const redScore = document.querySelector('#redScore');
+const blueScore = document.querySelector('#blueScore');
+const gameStatus = document.querySelector('#gameStatus');
 
 // update slider text as slider is being dragged
 sliders.forEach(slider => slider.oninput = function (){
@@ -89,7 +92,7 @@ function startGame(){
 }
 // change edged to player color if not colored already
 function changeEdgeColor(edge){
-    console.log(edge.style.backgroundColor)
+    let changePlayerTurn = true;
     if(edge.style.backgroundColor === ''){
         console.log('why')
         edge.style.backgroundColor = playerColors[playerColorIndex];
@@ -107,6 +110,7 @@ function changeEdgeColor(edge){
                     const el = document.querySelector(`#b-${edgeRow+1}-${edgeCol}`);
                     // console.log(el);
                     updateScore()
+                    changePlayerTurn = false;
                     el.style.backgroundColor = playerColors[playerColorIndex];
                 }
             }
@@ -116,6 +120,7 @@ function changeEdgeColor(edge){
                     const el = document.querySelector(`#b-${edgeRow-1}-${edgeCol}`);
                     // console.log(el);
                     updateScore()
+                    changePlayerTurn = false;
                     el.style.backgroundColor = playerColors[playerColorIndex];
                 }
             }
@@ -128,6 +133,7 @@ function changeEdgeColor(edge){
                     const el = document.querySelector(`#b-${edgeRow}-${edgeCol+1}`);
                     // console.log(el);
                     updateScore()
+                    changePlayerTurn = false;
                     el.style.backgroundColor = playerColors[playerColorIndex];
                 }
             }
@@ -137,18 +143,24 @@ function changeEdgeColor(edge){
                     const el = document.querySelector(`#b-${edgeRow}-${edgeCol - 1}`);
                     // console.log(el);
                     updateScore()
+                    changePlayerTurn = false;
                     el.style.backgroundColor = playerColors[playerColorIndex];
                 }
             }
         }
-        playerColorIndex ^= 1;
+        if(changePlayerTurn){
+            playerColorIndex ^= 1;
+            gameStatus.innerText = `${playerColors[playerColorIndex]} player's turn`
+        }
     }
 }
 function updateScore(){
     if(playerColorIndex == 0){
         redPlayerScore++;
+        redScore.innerText = `Red Score: ${redPlayerScore}`;
     }
     else{
         bluePlayerScore++;
+        blueScore.innerText = `Blue Score: ${bluePlayerScore}`;
     }
 }
