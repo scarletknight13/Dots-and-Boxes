@@ -29,6 +29,8 @@ let verticalEdges = document.querySelectorAll('.vEdge');
 const playerColors = ['red', 'blue'];
 let playerColorIndex = 0;
 const gameMatrix = [];
+let redPlayerScore = 0;
+let bluePlayerScore= 0;
 
 // update slider text as slider is being dragged
 sliders.forEach(slider => slider.oninput = function (){
@@ -40,14 +42,14 @@ sliders.forEach(slider => slider.oninput = function (){
     else
         label.innerText = `Column: ${this.value}`;  
 } );
+const gameBoard = document.querySelector('.gameboard');
 function startGame(){
     firstLayer.classList.toggle('hide');
     const rowSize = sliders[0].value;
     const colSize = sliders[1].value;
-    const gameBoard = document.querySelector('.gameboard');
     for(let i = 0; i < rowSize * 2 + 1; ++i){
         const currRow = document.createElement('div');
-        currRow.classList.add('row');
+        currRow.classList.add('row' + (i % 2).toString());
         const row = [];
         for(let j = 0; j < colSize * 2 + 1; ++j){
             row.push(0);
@@ -57,23 +59,24 @@ function startGame(){
                     currElement.classList.add('dot');
                 }
                 else{
-                    currElement.setAttribute('id', `h${i}${j}`)
+                    currElement.setAttribute('id', `h-${i}-${j}`)
                     currElement.classList.add('hEdge');
                 }
             }
             else{
                 if(j % 2 == 0){
-                    currElement.setAttribute('id', `v${i}${j}`)
+                    currElement.setAttribute('id', `v-${i}-${j}`)
                     currElement.classList.add('vEdge');
                 }
                 else{
-                    currElement.setAttribute('id', `b${i}${j}`)
+                    currElement.setAttribute('id', `b-${i}-${j}`)
                     currElement.classList.add('box');
                 }
             }
             currRow.append(currElement);
-            gameMatrix.push(row);
+            console.log(row);
         }
+        gameMatrix.push(row);
         gameBoard.append(currRow);
     }
     console.table(gameMatrix);
@@ -90,6 +93,62 @@ function changeEdgeColor(edge){
     if(edge.style.backgroundColor === ''){
         console.log('why')
         edge.style.backgroundColor = playerColors[playerColorIndex];
+        // check if the edge is the last uncolored edge of a box
+        // let edgeId = edge.id;
+        let info = edge.id.split('-');
+        console.log(info);
+        let edgeRow = parseInt(info[1]), edgeCol = parseInt(info[2]);
+        console.log(edge.id)
+        //check horizontal edges
+        if(edge.id[0] === 'h'){
+            if(edgeRow + 1 < gameMatrix.length){
+                ++gameMatrix[edgeRow + 1][edgeCol];
+                if(gameMatrix[edgeRow + 1][edgeCol] === 4){
+                    const el = document.querySelector(`#b-${edgeRow+1}-${edgeCol}`);
+                    // console.log(el);
+                    updateScore()
+                    el.style.backgroundColor = playerColors[playerColorIndex];
+                }
+            }
+            if(edgeRow - 1 >= 0){
+                ++gameMatrix[edgeRow-1][edgeCol];
+                if(gameMatrix[edgeRow - 1][edgeCol] === 4){
+                    const el = document.querySelector(`#b-${edgeRow-1}-${edgeCol}`);
+                    // console.log(el);
+                    updateScore()
+                    el.style.backgroundColor = playerColors[playerColorIndex];
+                }
+            }
+        }
+        // check vertical edges
+        else{
+            if(edgeCol + 1 < gameMatrix.length){
+                ++gameMatrix[edgeRow][edgeCol + 1];
+                if(gameMatrix[edgeRow][edgeCol + 1] === 4){
+                    const el = document.querySelector(`#b-${edgeRow}-${edgeCol+1}`);
+                    // console.log(el);
+                    updateScore()
+                    el.style.backgroundColor = playerColors[playerColorIndex];
+                }
+            }
+            if(edgeCol - 1 >= 0){
+                ++gameMatrix[edgeRow][edgeCol - 1];
+                if(gameMatrix[edgeRow][edgeCol - 1] === 4){
+                    const el = document.querySelector(`#b-${edgeRow}-${edgeCol - 1}`);
+                    // console.log(el);
+                    updateScore()
+                    el.style.backgroundColor = playerColors[playerColorIndex];
+                }
+            }
+        }
         playerColorIndex ^= 1;
+    }
+}
+function updateScore(){
+    if(playerColorIndex == 0){
+        redPlayerScore++;
+    }
+    else{
+        bluePlayerScore++;
     }
 }
