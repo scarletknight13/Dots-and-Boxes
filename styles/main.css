@@ -41,7 +41,7 @@ header{
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    background-color: green;
+    background: rgb(12, 148, 12);
 }
 .row1{
     width: fit-content;

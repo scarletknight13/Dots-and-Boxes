@@ -22,15 +22,18 @@
 const startButton = document.querySelector('.startButton');
 const sliders = document.querySelectorAll('.slider');
 const firstLayer = document.querySelector('.firstLayer');
+const secondLayer = document.querySelector('.secondLayer');
+const playerColors = ['red', 'blue'];
 startButton.addEventListener('click', startGame);
 let dots = document.querySelectorAll('.dots');
 let horizontalEdges = document.querySelectorAll('.hEdge');
 let verticalEdges = document.querySelectorAll('.vEdge');
-const playerColors = ['red', 'blue'];
 let playerColorIndex = 0;
-const gameMatrix = [];
+let gameMatrix = [];
 let redPlayerScore = 0;
 let bluePlayerScore= 0;
+let moves = 0;
+let numOfMoves = 0;
 const redScore = document.querySelector('#redScore');
 const blueScore = document.querySelector('#blueScore');
 const gameStatus = document.querySelector('#gameStatus');
@@ -45,8 +48,10 @@ sliders.forEach(slider => slider.oninput = function (){
     else
         label.innerText = `Column: ${this.value}`;  
 } );
-const gameBoard = document.querySelector('.gameboard');
 function startGame(){
+    document.querySelector('.gameboard').remove();
+    const gameBoard = document.createElement('div');
+    gameBoard.classList.add('gameboard');
     firstLayer.classList.toggle('hide');
     const rowSize = sliders[0].value;
     const colSize = sliders[1].value;
@@ -63,13 +68,13 @@ function startGame(){
                 }
                 else{
                     currElement.setAttribute('id', `h-${i}-${j}`)
-                    currElement.classList.add('hEdge');
+                    currElement.classList.add('hEdge', 'edge');
                 }
             }
             else{
                 if(j % 2 == 0){
                     currElement.setAttribute('id', `v-${i}-${j}`)
-                    currElement.classList.add('vEdge');
+                    currElement.classList.add('vEdge', 'edge');
                 }
                 else{
                     currElement.setAttribute('id', `b-${i}-${j}`)
@@ -81,19 +86,25 @@ function startGame(){
         }
         gameMatrix.push(row);
         gameBoard.append(currRow);
+        secondLayer.append(gameBoard);
     }
     console.table(gameMatrix);
     dots = document.querySelectorAll('.dots');
-    horizontalEdges = document.querySelectorAll('.hEdge');
-    verticalEdges = document.querySelectorAll('.vEdge');
-    console.log(horizontalEdges);
-    horizontalEdges.forEach((edge) => edge.addEventListener('click', () => changeEdgeColor(edge))); 
-    verticalEdges.forEach((edge) => edge.addEventListener('click', () => changeEdgeColor(edge)));
+    edges = document.querySelectorAll('.edge');
+    numOfMoves = edges.length;
+    console.log(edges);
+    edges.forEach((edge)=> edge.addEventListener('click', () => {
+        changeEdgeColor(edge);
+        if(moves === numOfMoves){
+            endGame();
+        } 
+    })); 
 }
 // change edged to player color if not colored already
 function changeEdgeColor(edge){
     let changePlayerTurn = true;
     if(edge.style.backgroundColor === ''){
+        ++moves;
         console.log('why')
         edge.style.backgroundColor = playerColors[playerColorIndex];
         // check if the edge is the last uncolored edge of a box
@@ -163,4 +174,37 @@ function updateScore(){
         bluePlayerScore++;
         blueScore.innerText = `Blue Score: ${bluePlayerScore}`;
     }
+}
+function changeInnerText(element, replacement){
+    console.log(element);
+    element.innerText = replacement;
+}
+function decideWinner(){
+    let winnerStatus = '';
+    console.log(bluePlayerScore, redPlayerScore);
+    if(bluePlayerScore > redPlayerScore){
+        winnerStatus = `Blue Player is the Winner!!`
+    }
+    else if(redPlayerScore > bluePlayerScore){
+        winnerStatus = `Red Player is the Winner!!`
+    }
+    else{
+        winnerStatus = `TIE!!`
+    }
+    changeInnerText(gameStatus, winnerStatus);
+}
+function endGame(){
+    changeInnerText(redScore, `Red score: 0`)
+    changeInnerText(blueScore, `Blue score: 0`);
+    decideWinner();
+    moves = 0;
+    gameActive = false;
+    playerColorIndex = 0;
+    gameMatrix = [];
+    redPlayerScore = 0;
+    bluePlayerScore = 0;
+    setTimeout(()=>{
+        firstLayer.classList.toggle('hide');
+        changeInnerText(gameStatus, "red player's turn");
+    }, 2000);
 }
