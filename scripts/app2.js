@@ -173,7 +173,8 @@ function changeEdgeColor(edge){
         }
         if(changePlayerTurn){
             playerColorIndex ^= 1;
-            gameStatus.innerText = `${playerColors[playerColorIndex]} player's turn`
+            gameStatus.innerText = `${playerColors[playerColorIndex]} player's turn`.toUpperCase();
+            gameStatus.style.color = playerColors[playerColorIndex];
         }
     }
 }
@@ -218,7 +219,7 @@ function endGame(){
         changeInnerText(gameStatus, "red player's turn");
         changeInnerText(redScore, `Red score: 0`);
         changeInnerText(blueScore, `Blue score: 0`);
-    }, 2000);
+    }, 3000);
 }
 function computerTurn(){
     console.log(aiMatrix);

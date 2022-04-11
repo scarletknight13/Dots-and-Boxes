@@ -100,7 +100,7 @@ header{
 
 }
 .vEdge:hover, .hEdge:hover{
-    transform: ;
+    transform: scale(1.1);
 }
 
 button{
