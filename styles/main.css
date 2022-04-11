@@ -26,7 +26,7 @@ header{
     justify-content: space-around;
 }
 .firstLayer{
-    background-color: greenyellow;
+    background-color: rgb(62,217,201);
     z-index: 2;
     visibility: visible;
     grid-row: 2 / span 2;
@@ -42,21 +42,24 @@ header{
     align-items: center;
 }
 .secondLayer{
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdXTKsuROxCnik7k29RdGuAioXk4Ll0tfZpA&usqp=CAU);
     z-index: 1;
     grid-row: 1 / span 4;
     grid-column: 1 / span 4;
     display: flex;
     flex-wrap: wrap;
     flex-direction: column;
-    background: rgb(12, 148, 12);
+    /* background: rgb(12, 148, 12); */
 }
 .row1{
+    margin-bottom: 10px;
     width: fit-content;
     height: 8%;
     display: flex;
     margin: 0;
 }
 .row0{
+    margin-bottom: 10px;
     width: fit-content;
     height: 2%;
     display: flex;
@@ -66,12 +69,15 @@ header{
     background-color: white;
     height: 100%;
     width: 4vw;
+    border-radius: 20%;
 }
 .vEdge{
+    border-radius: 20%;
     height: 100%;
     width: 1vw;
 }
 .box{
+    border-radius: 10%;
     background-color: white;
     width: 4vw;
     height: 100%;

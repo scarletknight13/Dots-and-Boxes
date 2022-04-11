@@ -220,4 +220,100 @@ function endGame(){
         changeInnerText(blueScore, `Blue score: 0`);
     }, 2000);
 }
+function pickMove(curr=[]){
+    
+    let bestMove = [];
+    console.log(a);
+    const restore = copy_matrix(aiMatrix);
+    for(let i = 0; i < rowSize; ++i){
+        let j = (i % 2 == 0) ? 1 : 0;
+        for(; j < colSize; j+=2){
+            if(aiMatrix[i][j] === 0){
+                if(bestMove[0] === undefined){
+                    if(i % 2 == 0)
+                        bestMove = [`h-${i}-${j}`]
+                    else
+                        bestMove = [`v-${i}-${j}`];
+                }
+                aiMatrix[i][j] = 1;
+                // console.log(typeof(i));
+                if(isLastEdge(i, j)){
+                    console.log(i, j);
+                    let addon = [...curr]
+                    if(i % 2 == 0)
+                        addon.push(`h-${i}-${j}`);
+                    else
+                        addon.push(`v-${i}-${j}`)
+                    temp = pickMove(addon);
+                    if(temp.length > bestMove.length){
+                        bestMove = temp;
+                    }
+                }
+                // removeEdge(i, j);
+                aiMatrix[i][j] = 0;
+            }
+            aiMatrix = restore;
+        }
+    }
+    return bestMove;
+}
+function isLastEdge(i, j){
+    // console.log('i and j', typeof(i), typeof(j))
+    // console.log(aiMatrix);
+    if(i % 2 === 0){
+        if(i + 1 < rowSize){
+            ++aiMatrix[i + 1][j];
+            if(aiMatrix[i + 1][j] === 4){
+               return true;
+            }
+        }
+        if(i - 1 >= 0){
+            ++aiMatrix[i - 1][j];
+            if(aiMatrix[i - 1][j] === 4){
+                return true;
+            }
+        }
+    }
+    // check vertical edges
+    else{
+        if(j + 1 < colSize){
+            ++aiMatrix[i][j + 1];
+            if(aiMatrix[i][j + 1] === 4){
+                return true;
+            }
+        }
+        if(j - 1 >= 0){
+            ++aiMatrix[i ][j - 1];
+            if(aiMatrix[i ][j - 1] === 4){
+              return true;
+            }
+        }
+    }
+    return false;
+}
+function noMoreMoves(aiMatrix){
+    let n = matrix.length;
+    let m = matrix[0].length;
+    for(let i = 0; i < rowSize; ++i){
+        let j = (i % 2 == 0) ? 1 : 0;
+        for(; j < colSize; j+=2){
+            if(matrix[i][j] == 0)
+                return false;
+        }
+    }
+    return true;
+}
 
+function copy_matrix(matrix){
+    let res = [];
+    // console.log('copy_matrix', res);
+    for(let i = 0; i < rowSize; ++i){
+        let row = [...matrix[i]];
+        // console.log(row);
+        res.push(row);
+        // console.log(res);
+    }
+    // console.log(res);
+    return res;
+
+}
