@@ -89,8 +89,8 @@ function startGame(){
             currRow.append(currElement);
             //console.log(row);
         }
-        gameMatrix.push(row);
-        aiMatrix.push(aiRow);
+        gameMatrix.push([...row]);
+        aiMatrix.push([...aiRow]);
         gameBoard.append(currRow);
         secondLayer.append(gameBoard);
     }
@@ -101,7 +101,7 @@ function startGame(){
     console.log(edges);
     edges.forEach((edge)=> edge.addEventListener('click', () => {
         changeEdgeColor(edge);
-        // console.log(aiMatrix);
+        console.log('after click', aiMatrix);
         if(moves === numOfMoves){
             endGame();
         } 
@@ -220,23 +220,27 @@ function endGame(){
         changeInnerText(blueScore, `Blue score: 0`);
     }, 2000);
 }
+function computerTurn(){
+    console.log(aiMatrix);
+    let moveList = pickMove();
+}
 function pickMove(curr=[]){
     
     let bestMove = [];
-    console.log(a);
-    const restore = copy_matrix(aiMatrix);
+    console.log(curr);
+    console.log('in', aiMatrix);
     for(let i = 0; i < rowSize; ++i){
         let j = (i % 2 == 0) ? 1 : 0;
         for(; j < colSize; j+=2){
             if(aiMatrix[i][j] === 0){
                 if(bestMove[0] === undefined){
                     if(i % 2 == 0)
-                        bestMove = [`h-${i}-${j}`]
+                        bestMove = [`h-${i}-${j}`];
                     else
                         bestMove = [`v-${i}-${j}`];
                 }
                 aiMatrix[i][j] = 1;
-                // console.log(typeof(i));
+                // console.log('before change', aiMatrix);
                 if(isLastEdge(i, j)){
                     console.log(i, j);
                     let addon = [...curr]
@@ -249,17 +253,19 @@ function pickMove(curr=[]){
                         bestMove = temp;
                     }
                 }
+                // console.log('after change', aiMatrix);
                 // removeEdge(i, j);
                 aiMatrix[i][j] = 0;
             }
-            aiMatrix = restore;
         }
     }
-    return bestMove;
+    if(bestMove.length > curr.length)
+        return bestMove;
+    return curr;
 }
 function isLastEdge(i, j){
     // console.log('i and j', typeof(i), typeof(j))
-    // console.log(aiMatrix);
+    // console.log('before checking', aiMatrix);
     if(i % 2 === 0){
         if(i + 1 < rowSize){
             ++aiMatrix[i + 1][j];
@@ -283,7 +289,7 @@ function isLastEdge(i, j){
             }
         }
         if(j - 1 >= 0){
-            ++aiMatrix[i ][j - 1];
+            ++aiMatrix[i][j - 1];
             if(aiMatrix[i ][j - 1] === 4){
               return true;
             }
@@ -291,19 +297,25 @@ function isLastEdge(i, j){
     }
     return false;
 }
-function noMoreMoves(aiMatrix){
-    let n = matrix.length;
-    let m = matrix[0].length;
-    for(let i = 0; i < rowSize; ++i){
-        let j = (i % 2 == 0) ? 1 : 0;
-        for(; j < colSize; j+=2){
-            if(matrix[i][j] == 0)
-                return false;
+function removeEdge(i, j){
+    if(i % 2 === 0){
+        if(i + 1 < rowSize){
+            --aiMatrix[i + 1][j];
+        }
+        if(i - 1 >= 0){
+            --aiMatrix[i - 1][j];
         }
     }
-    return true;
+    // check vertical edges
+    else{
+        if(j + 1 < colSize){
+            --aiMatrix[i][j + 1];
+        }
+        if(j - 1 >= 0){
+            --aiMatrix[i ][j - 1];
+        }
+    }
 }
-
 function copy_matrix(matrix){
     let res = [];
     // console.log('copy_matrix', res);
