@@ -103,7 +103,10 @@ function startGame(){
         changeEdgeColor(edge);
         // console.log('after click', aiMatrix);
         console.log('after click', aiMatrix);
-        let moveList = pickMove();
+        if(computerActive){
+            let moveList = pickMove();
+            setOpponentMoves(moveList);
+        }
         console.log(`MoveList is: `, moveList);
         if(moves === numOfMoves){
             endGame();
@@ -240,9 +243,9 @@ function pickMove(curr=[]){
             if(aiMatrix[i][j] === 0){
                 if(bestMove[0] === undefined){
                     if(i % 2 == 0)
-                        firsPossibleMove = [`h-${i}-${j}`];
+                        bestMove = [`h-${i}-${j}`];
                     else
-                        firstPossibleMove = [`v-${i}-${j}`];
+                        bestMove = [`v-${i}-${j}`];
                 }
                 aiMatrix[i][j] = 1;
                 // console.log('before change', aiMatrix);
@@ -267,7 +270,7 @@ function pickMove(curr=[]){
     }
     if(bestMove.length > curr.length)
         return bestMove;
-    curr.push(bestMove);
+    curr.push(...bestMove);
     return curr;
 }
 function isLastEdge(i, j){
