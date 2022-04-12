@@ -26,6 +26,8 @@ const secondLayer = document.querySelector('.secondLayer');
 const playerColors = ['red', 'blue'];
 const twoPlayer = document.querySelector('#twoPlayer');
 const computer = document.querySelector('#computer');
+const rulePopup = document.querySelector('.rules');
+const showRules = document.querySelector('span');
 let dots = document.querySelectorAll('.dots');
 let horizontalEdges = document.querySelectorAll('.hEdge');
 let verticalEdges = document.querySelectorAll('.vEdge');
@@ -48,6 +50,10 @@ startButton.addEventListener('click', () => {
         startGame();
     }
 });
+showRules.addEventListener('click', () => {
+    console.log('nah');
+    rulePopup.classList.toggle('hide')
+});
 // update slider text as slider is being dragged
 sliders.forEach(slider => slider.oninput = function (){
     //console.log(slider.id)
@@ -60,6 +66,7 @@ sliders.forEach(slider => slider.oninput = function (){
 } );
 function startGame(){
     computerActive = computer.checked;
+    // if()
     document.querySelector('.gameboard').remove();
     const gameBoard = document.createElement('div');
     gameBoard.classList.add('gameboard');
