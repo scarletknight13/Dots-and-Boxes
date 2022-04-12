@@ -28,6 +28,7 @@ startButton.addEventListener('click', startGame);
 let dots = document.querySelectorAll('.dots');
 let horizontalEdges = document.querySelectorAll('.hEdge');
 let verticalEdges = document.querySelectorAll('.vEdge');
+let computerActive = true;
 let playerColorIndex = 0;
 let gameMatrix = [];
 let aiMatrix = [];
@@ -103,17 +104,25 @@ function startGame(){
         changeEdgeColor(edge);
         // console.log('after click', aiMatrix);
         console.log('after click', aiMatrix);
-        if(computerActive){
+        if(playerColorIndex === 1 && computerActive){
             let moveList = pickMove();
+            console.log(`MoveList is: `, moveList);
             setOpponentMoves(moveList);
         }
-        console.log(`MoveList is: `, moveList);
         if(moves === numOfMoves){
             endGame();
         } 
     })); 
 }
 // change edged to player color if not colored already
+function setOpponentMoves(moveList){
+
+    moveList.forEach((move) =>{
+        const currEdge = document.querySelector(`#${move}`);
+        console.log(currEdge);
+        changeEdgeColor(currEdge);
+    })
+}
 function changeEdgeColor(edge){
     let changePlayerTurn = true;
     if(edge.style.backgroundColor === ''){
@@ -218,6 +227,7 @@ function endGame(){
     gameActive = false;
     playerColorIndex = 0;
     gameMatrix = [];
+    aiMatrix = [];
     redPlayerScore = 0;
     bluePlayerScore = 0;
     setTimeout(()=>{
@@ -226,10 +236,6 @@ function endGame(){
         changeInnerText(redScore, `Red score: 0`);
         changeInnerText(blueScore, `Blue score: 0`);
     }, 3000);
-}
-function computerTurn(){
-    console.log(aiMatrix);
-    let moveList = pickMove();
 }
 
 function pickMove(curr=[]){
