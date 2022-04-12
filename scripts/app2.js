@@ -241,17 +241,29 @@ function endGame(){
 function pickMove(curr=[]){
     
     let bestMove = [];
+    let possibleMove = '';
+    let possibleMoveChance = -1;
     // console.log(curr);
     console.log('in', aiMatrix);
     for(let i = 0; i < rowSize; ++i){
         let j = (i % 2 == 0) ? 1 : 0;
         for(; j < colSize; j+=2){
             if(aiMatrix[i][j] === 0){
-                if(bestMove[0] === undefined){
-                    if(i % 2 == 0)
-                        bestMove = [`h-${i}-${j}`];
-                    else
-                        bestMove = [`v-${i}-${j}`];
+                if(bestMove === undefined){
+                    let rand = 1 + Math.floor(Math.random() * 101);
+                    if(i % 2 == 0){
+                        if(rand > possibleMoveChance){
+                            possibleMove = `h-${i}-${j}`;
+                            possibleMoveChance = rand;
+                        }
+                    }
+                    else{
+                        let rand = 1 + Math.floor(Math.random() * 101);
+                        if(rand > possibleMoveChance){
+                            possibleMove = `v-${i}-${j}`;
+                            possibleMoveChance = rand;
+                        }
+                    }
                 }
                 aiMatrix[i][j] = 1;
                 // console.log('before change', aiMatrix);
@@ -274,8 +286,9 @@ function pickMove(curr=[]){
             }
         }
     }
-    if(bestMove.length > curr.length)
-        return bestMove;
+    if(bestMove === undefined){
+        bestMove = [possibleMove];
+    }
     curr.push(...bestMove);
     return curr;
 }
