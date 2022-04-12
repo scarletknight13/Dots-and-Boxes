@@ -229,9 +229,11 @@ function decideWinner(){
     //console.log(bluePlayerScore, redPlayerScore);
     if(bluePlayerScore > redPlayerScore){
         winnerStatus = `Blue Player is the Winner!!`.toUpperCase();
+        gameStatus.style.color = 'blue';
     }
     else if(redPlayerScore > bluePlayerScore){
         winnerStatus = `Red Player is the Winner!!`.toUpperCase()
+        gameStatus.style.color = 'red';
     }
     else{
         winnerStatus = `TIE!!`
