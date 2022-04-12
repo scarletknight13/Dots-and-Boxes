@@ -95,7 +95,7 @@ header{
 }
 
 .vEdge, .hEdge, .dot{
-    background-color: white;
+    background-color: lightsteelblue;
     border: 1px solid black;
 
 }

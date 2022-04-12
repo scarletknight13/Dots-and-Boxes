@@ -41,6 +41,7 @@ const redScore = document.querySelector('#redScore');
 const blueScore = document.querySelector('#blueScore');
 const gameStatus = document.querySelector('#gameStatus');
 
+
 // update slider text as slider is being dragged
 sliders.forEach(slider => slider.oninput = function (){
     //console.log(slider.id)
@@ -97,6 +98,9 @@ function startGame(){
     console.table(gameMatrix);
     dots = document.querySelectorAll('.dots');
     edges = document.querySelectorAll('.edge');
+    redScore.style.color = 'red';
+    blueScore.style.color = 'blue';
+    gameStatus.style.color = 'red';
     numOfMoves = edges.length;
     console.log(edges);
     edges.forEach((edge)=> edge.addEventListener('click', () => {
@@ -174,6 +178,7 @@ function changeEdgeColor(edge){
         if(changePlayerTurn){
             playerColorIndex ^= 1;
             gameStatus.innerText = `${playerColors[playerColorIndex]} player's turn`.toUpperCase();
+            gameStatus.style.color = playerColors[playerColorIndex];
         }
     }
 }
@@ -195,10 +200,10 @@ function decideWinner(){
     let winnerStatus = '';
     //console.log(bluePlayerScore, redPlayerScore);
     if(bluePlayerScore > redPlayerScore){
-        winnerStatus = `Blue Player is the Winner!!`
+        winnerStatus = `Blue Player is the Winner!!`.toUpperCase();
     }
     else if(redPlayerScore > bluePlayerScore){
-        winnerStatus = `Red Player is the Winner!!`
+        winnerStatus = `Red Player is the Winner!!`.toUpperCase()
     }
     else{
         winnerStatus = `TIE!!`
@@ -215,9 +220,9 @@ function endGame(){
     bluePlayerScore = 0;
     setTimeout(()=>{
         firstLayer.classList.toggle('hide');
-        changeInnerText(gameStatus, "red player's turn");
+        changeInnerText(gameStatus, "RED PLAYER'S TURN");
         changeInnerText(redScore, `Red score: 0`);
         changeInnerText(blueScore, `Blue score: 0`);
-    }, 3000);
+    }, 5000);
 }
 
