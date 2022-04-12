@@ -51,7 +51,7 @@ span:hover{
     align-items: center;
 }
 .secondLayer{
-    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdXTKsuROxCnik7k29RdGuAioXk4Ll0tfZpA&usqp=CAU);
+    background-image: url(https://cdn.dribbble.com/users/470545/screenshots/3249842/sunset-on-a-beach.gif);
     z-index: 1;
     grid-row: 1 / span 4;
     grid-column: 1 / span 4;
