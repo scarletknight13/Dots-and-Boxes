@@ -12,9 +12,9 @@
         <main class="content">
             <h2>Pick Gameboard Size</h2>
             <div class="playType">
-                <input type="radio" id="twoPlayer">
+                <input type="radio" name="playerSelection" id="twoPlayer">
                 <label for="twoPlayer">2 Player</label>
-                <input type="radio" id="computer">
+                <input type="radio" name='playerSelection' id="computer">
                 <label for="computer">Computer</label>
             </div>
             <label class="rowSlider">Row: 6</label>
@@ -36,6 +36,17 @@
         <div class="gameboard">
         </div>
     </div>
+    <!-- <div class="rules">
+        <h2>Rules</h2>
+        <ul>
+            <li>First player is red second is blue.</li>
+            <li>Players take turns selecting the edges of the boxes</li>
+            <li>When player selects an edge that edge will be colored with their color and is unavailable in further selections.</li>
+            <li>When a player selects the last uncolored edge of a box that box will be counted as theirs.</li>
+            <li>After selecting the last uncolored edge of a box the current player gets an extra turn.</li>
+            <li>The player with the most boxes wins.</li>
+        </ul>
+    </div> -->
     <script src="./scripts/app2.js" defer></script>
 </body>
 </html>

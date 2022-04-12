@@ -119,6 +119,26 @@ main{
     align-items: center;
     justify-content:space-around;
 }
+.rules{
+    text-align: center;
+    margin: 15px;
+    padding: 10px;
+    z-index: 1;
+    border-radius: 8%;
+    background-color: rgb(220,27,40);
+    grid-row: 1 / span 3;
+    grid-column: 4 / span 1;
+    display: flex;
+    flex-direction: column;
+
+}
+ul{
+    text-align: left;
+    list-style-position: inside;
+    font-size: large;
+    font-weight: bold;
+    color: white;
+}
 .slider{
     width: 40%;
     background-color: black;

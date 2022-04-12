@@ -24,11 +24,12 @@ const sliders = document.querySelectorAll('.slider');
 const firstLayer = document.querySelector('.firstLayer');
 const secondLayer = document.querySelector('.secondLayer');
 const playerColors = ['red', 'blue'];
-startButton.addEventListener('click', startGame);
+const twoPlayer = document.querySelector('#twoPlayer');
+const computer = document.querySelector('#computer');
 let dots = document.querySelectorAll('.dots');
 let horizontalEdges = document.querySelectorAll('.hEdge');
 let verticalEdges = document.querySelectorAll('.vEdge');
-let computerActive = true;
+let computerActive = computer.checked;
 let playerColorIndex = 0;
 let gameMatrix = [];
 let aiMatrix = [];
@@ -42,6 +43,11 @@ const redScore = document.querySelector('#redScore');
 const blueScore = document.querySelector('#blueScore');
 const gameStatus = document.querySelector('#gameStatus');
 
+startButton.addEventListener('click', () => {
+    if(computer.checked || twoPlayer.checked){
+        startGame();
+    }
+});
 // update slider text as slider is being dragged
 sliders.forEach(slider => slider.oninput = function (){
     //console.log(slider.id)
@@ -53,6 +59,7 @@ sliders.forEach(slider => slider.oninput = function (){
         label.innerText = `Column: ${this.value}`;  
 } );
 function startGame(){
+    computerActive = computer.checked;
     document.querySelector('.gameboard').remove();
     const gameBoard = document.createElement('div');
     gameBoard.classList.add('gameboard');
@@ -95,9 +102,12 @@ function startGame(){
         gameBoard.append(currRow);
         secondLayer.append(gameBoard);
     }
-    console.table(gameMatrix);
+    // console.table(gameMatrix);
     dots = document.querySelectorAll('.dots');
     edges = document.querySelectorAll('.edge');
+    redScore.style.color = 'red';
+    blueScore.style.color = 'blue';
+    gameStatus.style.color = 'red';
     numOfMoves = edges.length;
     console.log(edges);
     edges.forEach((edge)=> edge.addEventListener('click', () => {
@@ -211,10 +221,10 @@ function decideWinner(){
     let winnerStatus = '';
     //console.log(bluePlayerScore, redPlayerScore);
     if(bluePlayerScore > redPlayerScore){
-        winnerStatus = `Blue Player is the Winner!!`
+        winnerStatus = `Blue Player is the Winner!!`.toUpperCase();
     }
     else if(redPlayerScore > bluePlayerScore){
-        winnerStatus = `Red Player is the Winner!!`
+        winnerStatus = `Red Player is the Winner!!`.toUpperCase()
     }
     else{
         winnerStatus = `TIE!!`
@@ -232,7 +242,7 @@ function endGame(){
     bluePlayerScore = 0;
     setTimeout(()=>{
         firstLayer.classList.toggle('hide');
-        changeInnerText(gameStatus, "red player's turn");
+        changeInnerText(gameStatus, "Red Player's Turn");
         changeInnerText(redScore, `Red score: 0`);
         changeInnerText(blueScore, `Blue score: 0`);
     }, 3000);
@@ -241,7 +251,7 @@ function endGame(){
 function pickMove(curr=[]){
     
     let bestMove = [];
-    let possibleMove = '';
+    let possibleMove;
     let possibleMoveChance = -1;
     // console.log(curr);
     console.log('in', aiMatrix);
@@ -249,7 +259,7 @@ function pickMove(curr=[]){
         let j = (i % 2 == 0) ? 1 : 0;
         for(; j < colSize; j+=2){
             if(aiMatrix[i][j] === 0){
-                if(bestMove === undefined){
+                if(bestMove[0] === undefined){
                     let rand = 1 + Math.floor(Math.random() * 101);
                     if(i % 2 == 0){
                         if(rand > possibleMoveChance){
@@ -286,9 +296,12 @@ function pickMove(curr=[]){
             }
         }
     }
-    if(bestMove === undefined){
-        bestMove = [possibleMove];
+    if(bestMove[0] === undefined){
+        if(possibleMove !== undefined)
+            bestMove = [possibleMove];
     }
+    if(bestMove.length > curr.length)
+        return bestMove;
     curr.push(...bestMove);
     return curr;
 }
