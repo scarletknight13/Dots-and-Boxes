@@ -60,7 +60,7 @@ showRules.addEventListener('click', () => {
     rulePopup.classList.toggle('hide')
 });
 resetButton.addEventListener('click', () =>{
-    console.log('nah');
+    endGame();
     console.log(secondLayer);
     if(gameActive)
         firstLayer.classList.toggle('hide');
@@ -256,8 +256,8 @@ function endGame(){
     moves = 0;
     gameActive = false;
     playerColorIndex = 0;
-    gameMatrix = [];
-    aiMatrix = [];
+    gameMatrix.clear();
+    aiMatrix.clear();
     redPlayerScore = 0;
     bluePlayerScore = 0;
     setTimeout(()=>{
