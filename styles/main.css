@@ -60,6 +60,10 @@ span:hover{
     flex-direction: column;
     /* background: rgb(12, 148, 12); */
 }
+.resetButton{
+    width: 30px;
+    height: 30px;
+}
 .row1{
     margin-bottom: 10px;
     width: fit-content;
@@ -127,7 +131,7 @@ main{
     z-index: 1;
     border-radius: 8%;
     background-color: rgb(220,27,40);
-    grid-row: 1 / span 3;
+    grid-row: 1 / span 4;
     grid-column: 4 / span 1;
     display: flex;
     flex-direction: column;

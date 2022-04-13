@@ -27,7 +27,8 @@ const playerColors = ['red', 'blue'];
 const twoPlayer = document.querySelector('#twoPlayer');
 const computer = document.querySelector('#computer');
 const rulePopup = document.querySelector('.rules');
-const showRules = document.querySelector('span');
+const showRules = document.querySelector('#rulesButton');
+const resetButton = document.querySelector('#resetButton');
 let dots = document.querySelectorAll('.dots');
 let horizontalEdges = document.querySelectorAll('.hEdge');
 let verticalEdges = document.querySelectorAll('.vEdge');
@@ -51,9 +52,13 @@ startButton.addEventListener('click', () => {
     }
 });
 showRules.addEventListener('click', () => {
-    console.log('nah');
     rulePopup.classList.toggle('hide')
 });
+resetButton.addEventListener('click', () =>{
+    console.log('nah');
+    console.log(secondLayer);
+    firstLayer.classList.toggle('hide');
+})
 // update slider text as slider is being dragged
 sliders.forEach(slider => slider.oninput = function (){
     //console.log(slider.id)
