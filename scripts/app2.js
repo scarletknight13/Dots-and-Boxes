@@ -60,10 +60,10 @@ showRules.addEventListener('click', () => {
     rulePopup.classList.toggle('hide')
 });
 resetButton.addEventListener('click', () =>{
-    endGame();
     console.log(secondLayer);
     if(gameActive)
         firstLayer.classList.toggle('hide');
+    endGame();
 })
 // update slider text as slider is being dragged
 sliders.forEach(slider => slider.oninput = function (){
