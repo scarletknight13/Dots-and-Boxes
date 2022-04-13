@@ -256,12 +256,14 @@ function endGame(){
     moves = 0;
     gameActive = false;
     playerColorIndex = 0;
-    gameMatrix.clear();
-    aiMatrix.clear();
+    gameMatrix.splice(0, gameMatrix.length);
+    aiMatrix.splice(0, aiMatrix.length);
+    console.log('After clear', aiMatrix, gameMatrix);
     redPlayerScore = 0;
     bluePlayerScore = 0;
     setTimeout(()=>{
-        firstLayer.classList.toggle('hide');
+        if(firstLayer.classList.contains('hide') === false)
+            firstLayer.classList.toggle('hide');
         changeInnerText(gameStatus, "Red Player's Turn");
         changeInnerText(redScore, `Red score: 0`.toUpperCase());
         changeInnerText(blueScore, `Blue score: 0`.toUpperCase());
