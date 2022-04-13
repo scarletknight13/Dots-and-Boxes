@@ -34,6 +34,7 @@ let horizontalEdges = document.querySelectorAll('.hEdge');
 let verticalEdges = document.querySelectorAll('.vEdge');
 let computerActive = computer.checked;
 let playerColorIndex = 0;
+let gameActive = false;
 let gameMatrix = [];
 let aiMatrix = [];
 let redPlayerScore = 0;
@@ -57,7 +58,8 @@ showRules.addEventListener('click', () => {
 resetButton.addEventListener('click', () =>{
     console.log('nah');
     console.log(secondLayer);
-    firstLayer.classList.toggle('hide');
+    if(gameActive)
+        firstLayer.classList.toggle('hide');
 })
 // update slider text as slider is being dragged
 sliders.forEach(slider => slider.oninput = function (){
@@ -71,7 +73,7 @@ sliders.forEach(slider => slider.oninput = function (){
 } );
 function startGame(){
     computerActive = computer.checked;
-    // if()
+    gameActive = true;
     document.querySelector('.gameboard').remove();
     const gameBoard = document.createElement('div');
     gameBoard.classList.add('gameboard');
