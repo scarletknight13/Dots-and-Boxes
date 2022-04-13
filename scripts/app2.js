@@ -24,6 +24,10 @@ const sliders = document.querySelectorAll('.slider');
 const firstLayer = document.querySelector('.firstLayer');
 const secondLayer = document.querySelector('.secondLayer');
 const playerColors = ['red', 'blue'];
+const colorMap = {
+    'red': 'rgb(255,99,130)',
+    'blue' : 'rgb(3,136,214)'
+}
 const twoPlayer = document.querySelector('#twoPlayer');
 const computer = document.querySelector('#computer');
 const rulePopup = document.querySelector('.rules');
@@ -119,9 +123,9 @@ function startGame(){
     // console.table(gameMatrix);
     dots = document.querySelectorAll('.dots');
     edges = document.querySelectorAll('.edge');
-    redScore.style.color = 'red';
-    blueScore.style.color = 'blue';
-    gameStatus.style.color = 'red';
+    redScore.style.color = colorMap['red'];
+    blueScore.style.color = colorMap['blue'];
+    gameStatus.style.color = colorMap['red'];
     numOfMoves = edges.length;
     console.log(edges);
     edges.forEach((edge)=> edge.addEventListener('click', () => {
@@ -152,7 +156,7 @@ function changeEdgeColor(edge){
     if(edge.style.backgroundColor === ''){
         ++moves;
         //console.log('why')
-        edge.style.backgroundColor = playerColors[playerColorIndex];
+        edge.style.backgroundColor = colorMap[playerColors[playerColorIndex]];
         // check if the edge is the last uncolored edge of a box
         // let edgeId = edge.id;
         let info = edge.id.split('-');
@@ -170,7 +174,7 @@ function changeEdgeColor(edge){
                     // console.log(el);
                     updateScore()
                     changePlayerTurn = false;
-                    el.style.backgroundColor = playerColors[playerColorIndex];
+                    el.style.backgroundColor =  colorMap[playerColors[playerColorIndex]];
                 }
             }
             if(edgeRow - 1 >= 0){
@@ -181,7 +185,7 @@ function changeEdgeColor(edge){
                     // console.log(el);
                     updateScore()
                     changePlayerTurn = false;
-                    el.style.backgroundColor = playerColors[playerColorIndex];
+                    el.style.backgroundColor =  colorMap[playerColors[playerColorIndex]];
                 }
             }
         }
@@ -195,7 +199,7 @@ function changeEdgeColor(edge){
                     // console.log(el);
                     updateScore()
                     changePlayerTurn = false;
-                    el.style.backgroundColor = playerColors[playerColorIndex];
+                    el.style.backgroundColor =  colorMap[playerColors[playerColorIndex]];
                 }
             }
             if(edgeCol - 1 >= 0){
@@ -206,25 +210,25 @@ function changeEdgeColor(edge){
                     // console.log(el);
                     updateScore()
                     changePlayerTurn = false;
-                    el.style.backgroundColor = playerColors[playerColorIndex];
+                    el.style.backgroundColor = colorMap[playerColors[playerColorIndex]];
                 }
             }
         }
         if(changePlayerTurn){
             playerColorIndex ^= 1;
             gameStatus.innerText = `${playerColors[playerColorIndex]} player's turn`.toUpperCase();
-            gameStatus.style.color = playerColors[playerColorIndex];
+            gameStatus.style.color = colorMap[playerColors[playerColorIndex]];
         }
     }
 }
 function updateScore(){
     if(playerColorIndex == 0){
         redPlayerScore++;
-        redScore.innerText = `Red Score: ${redPlayerScore}`;
+        redScore.innerText = `Red Score: ${redPlayerScore}`.toUpperCase();
     }
     else{
         bluePlayerScore++;
-        blueScore.innerText = `Blue Score: ${bluePlayerScore}`;
+        blueScore.innerText = `Blue Score: ${bluePlayerScore}`.toUpperCase();
     }
 }
 function changeInnerText(element, replacement){
@@ -236,11 +240,11 @@ function decideWinner(){
     //console.log(bluePlayerScore, redPlayerScore);
     if(bluePlayerScore > redPlayerScore){
         winnerStatus = `Blue Player is the Winner!!`.toUpperCase();
-        gameStatus.style.color = 'blue';
+        gameStatus.style.color = colorMap['blue'];
     }
     else if(redPlayerScore > bluePlayerScore){
         winnerStatus = `Red Player is the Winner!!`.toUpperCase()
-        gameStatus.style.color = 'red';
+        gameStatus.style.color = colorMap['red'];
     }
     else{
         winnerStatus = `TIE!!`
@@ -259,8 +263,8 @@ function endGame(){
     setTimeout(()=>{
         firstLayer.classList.toggle('hide');
         changeInnerText(gameStatus, "Red Player's Turn");
-        changeInnerText(redScore, `Red score: 0`);
-        changeInnerText(blueScore, `Blue score: 0`);
+        changeInnerText(redScore, `Red score: 0`.toUpperCase());
+        changeInnerText(blueScore, `Blue score: 0`.toUpperCase());
     }, 3000);
 }
 
@@ -270,7 +274,7 @@ function pickMove(curr=[]){
     let possibleMove;
     let possibleMoveChance = -1;
     // console.log(curr);
-    console.log('in', aiMatrix);
+    // console.log('in', aiMatrix);
     for(let i = 0; i < rowSize; ++i){
         let j = (i % 2 == 0) ? 1 : 0;
         for(; j < colSize; j+=2){
@@ -293,6 +297,7 @@ function pickMove(curr=[]){
                 }
                 aiMatrix[i][j] = 1;
                 // console.log('before change', aiMatrix);
+                // if last edge pick move and recurse to see maximum amount of following moves
                 if(isLastEdge(i, j)){
                     addEdge(i, j);
                     let addon = [...curr]
@@ -392,18 +397,5 @@ function removeEdge(i, j){
             --aiMatrix[i ][j - 1];
         }
     }
-}
-function copy_matrix(matrix){
-    let res = [];
-    // console.log('copy_matrix', res);
-    for(let i = 0; i < rowSize; ++i){
-        let row = [...matrix[i]];
-        // console.log(row);
-        res.push(row);
-        // console.log(res);
-    }
-    // console.log(res);
-    return res;
-
 }
 
