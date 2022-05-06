@@ -62,8 +62,7 @@ showRules.addEventListener('click', () => {
 resetButton.addEventListener('click', () =>{
     console.log(secondLayer);
     if(gameActive)
-        firstLayer.classList.toggle('hide');
-    endGame();
+        resetGame()
 })
 // update slider text as slider is being dragged
 sliders.forEach(slider => slider.oninput = function (){
@@ -75,6 +74,24 @@ sliders.forEach(slider => slider.oninput = function (){
     else
         label.innerText = `Column: ${this.value}`;  
 } );
+function resetGame(){
+    resetGameVariables();
+    changeInnerText(gameStatus, "Red Player's Turn");
+    changeInnerText(redScore, `Red score: 0`.toUpperCase());
+    changeInnerText(blueScore, `Blue score: 0`.toUpperCase());
+    if(firstLayer.classList.contains('hide') === true)
+        firstLayer.classList.toggle('hide');
+}
+function resetGameVariables(){
+    moves = 0;
+    gameActive = false;
+    playerColorIndex = 0;
+    gameMatrix.splice(0, gameMatrix.length);
+    aiMatrix.splice(0, aiMatrix.length);
+    console.log('After clear', aiMatrix, gameMatrix);
+    redPlayerScore = 0;
+    bluePlayerScore = 0;
+}
 function startGame(){
     computerActive = computer.checked;
     gameActive = true;
@@ -131,7 +148,7 @@ function startGame(){
     edges.forEach((edge)=> edge.addEventListener('click', () => {
         changeEdgeColor(edge);
         // console.log('after click', aiMatrix);
-        console.log('after click', aiMatrix);
+        console.log('moves: ', moves);
         if(playerColorIndex === 1 && computerActive){
             let moveList = pickMove();
             console.log(`MoveList is: `, moveList);
@@ -253,21 +270,16 @@ function decideWinner(){
 }
 function endGame(){
     decideWinner();
-    moves = 0;
-    gameActive = false;
-    playerColorIndex = 0;
-    gameMatrix.splice(0, gameMatrix.length);
-    aiMatrix.splice(0, aiMatrix.length);
-    console.log('After clear', aiMatrix, gameMatrix);
-    redPlayerScore = 0;
-    bluePlayerScore = 0;
-    setTimeout(()=>{
-        if(firstLayer.classList.contains('hide') === false)
+    resetGameVariables();
+    setTimeout(()=> {
+        if(firstLayer.classList.contains('hide') === true)
             firstLayer.classList.toggle('hide');
         changeInnerText(gameStatus, "Red Player's Turn");
         changeInnerText(redScore, `Red score: 0`.toUpperCase());
         changeInnerText(blueScore, `Blue score: 0`.toUpperCase());
     }, 3000);
+    
+    
 }
 
 function pickMove(curr=[]){
